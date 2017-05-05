@@ -8,6 +8,7 @@
 
 function mainObj(){
 	this.puzzlearray=[];
+	this.cluearray=[];
 	this.createPuzzle=createPuzzle;
 	this.tile=[];
 	this.wordspaces=[];
@@ -24,9 +25,110 @@ function mainObj(){
 	this.line4done=true;
 	this.clearAll=clearAll;
 	this.solvePuzzle=solvePuzzle;
-	
+	this.CreatePlayers=CreatePlayers;
+	this.PlayerLoop=PlayerLoop;
+	this.players=[];
+	this.currentplayer=0;
+	this.points=100;
+	this.scorecard=[];
+	this.header=[];
+	this.playerarray=[]
+	var players=document.getElementsByClassName("players")[0];
+	function PlayerLoop(number){
+		for(var i=0;i<number;i++){
+			var player=new obj.CreatePlayers();
+			obj.players.push(player);
+			obj.playerarray.push(i);
+		}
+		if(number===1){
+			var scorecard=document.createElement("div")
+			scorecard.classList.add("players1")
+			players.append(scorecard);
+			var playerheader=document.createElement("div")
+			playerheader.classList.add("playerheader1")
+			scorecard.append(playerheader)
+			playerheader.innerHTML="Player 1"
+			var mypoints=document.createElement("div")
+			mypoints.classList.add("mypoints")
+			scorecard.append(mypoints)
+			mypoints.innerHTML=0;
+			obj.scorecard.push(mypoints);
+			obj.header.push(playerheader);
+		}
+		if(number===2){
+				var scorecard=document.createElement("div")
+				var scorecard2=document.createElement("div")
+			scorecard.classList.add("players1")
+			scorecard2.classList.add("players1")
+			players.append(scorecard);
+			players.append(scorecard2);
+			var playerheader=document.createElement("div")
+			playerheader.classList.add("playerheader1")
+			scorecard.append(playerheader)
+			var playerheader2=document.createElement("div")
+			playerheader2.classList.add("playerheader2")
+			scorecard2.append(playerheader2)
+			playerheader.innerHTML="Player 1"
+			playerheader2.innerHTML="Player 2"
+			var mypoints=document.createElement("div")
+			mypoints.classList.add("mypoints")
+			scorecard.append(mypoints)
+			mypoints.innerHTML=0;
+			var mypoints2=document.createElement("div")
+			mypoints2.classList.add("mypoints")
+			scorecard2.append(mypoints2)
+			mypoints2.innerHTML=0;
+			obj.scorecard.push(mypoints);
+			obj.scorecard.push(mypoints2);
+			obj.header.push(playerheader);
+			obj.header.push(playerheader2);
+		}
+		if(number>=3){
+				var scorecard=document.createElement("div")
+				var scorecard2=document.createElement("div")
+				var scorecard3=document.createElement("div")
+			scorecard.classList.add("players1")
+			scorecard2.classList.add("players1")
+			scorecard3.classList.add("players1")
+			players.append(scorecard);
+			players.append(scorecard2);
+			players.append(scorecard3);
+			var playerheader=document.createElement("div")
+			playerheader.classList.add("playerheader1")
+			scorecard.append(playerheader)
+			var playerheader2=document.createElement("div")
+			playerheader2.classList.add("playerheader2")
+			scorecard2.append(playerheader2)
+			var playerheader3=document.createElement("div")
+			playerheader3.classList.add("playerheader3")
+			scorecard3.append(playerheader3)
+			playerheader.innerHTML="Player 1"
+			playerheader2.innerHTML="Player 2"
+			playerheader3.innerHTML="Player 3"
+			var mypoints=document.createElement("div")
+			mypoints.classList.add("mypoints")
+			scorecard.append(mypoints)
+			mypoints.innerHTML=0;
+			var mypoints2=document.createElement("div")
+			mypoints2.classList.add("mypoints")
+			scorecard2.append(mypoints2)
+			mypoints2.innerHTML=0;
+			var mypoints3=document.createElement("div")
+			mypoints3.classList.add("mypoints")
+			scorecard3.append(mypoints3)
+			mypoints3.innerHTML=0;
+			obj.scorecard.push(mypoints);
+			obj.scorecard.push(mypoints2);
+			obj.scorecard.push(mypoints3);
+			obj.header.push(playerheader);
+			obj.header.push(playerheader2);
+			obj.header.push(playerheader3);
+		}
+	}
 
-
+	function CreatePlayers(){
+		this.score=0;
+	}
 	function createPuzzle(phrase){
 		phrase=phrase.split(" ")
 		// console.log(phrase.length);
@@ -103,10 +205,14 @@ function mainObj(){
 	}
 	document.addEventListener("keypress", function(event){
 		CheckForLetter(event.key);
+
 	})
-	function solvePuzzle(){
-		console.log(obj.tile)
-		console.log(obj.emptytile)
+	function solvePuzzle(string){
+		if(string+" "===obj.letters.join("")){
+			alert("You have solved the puzzle!!!")
+		}else{
+			alert("You have guessed incorrectly.")
+		}
 	}
 	function figureOutLines(){
 		for(var i=0; i<obj.wordspaces.length;i++){
@@ -147,12 +253,34 @@ function mainObj(){
 		}
 	}
 	function CheckForLetter(letter){
+		var guessedcorrect=false;
 		for(var i=0;i<obj.tile.length;i++){
 			if(obj.tile[i].innerHTML===letter){
 				obj.tile[i].classList.add("correct-letter");
 				obj.tile[i].classList.remove("hiddentile")
+				obj.players[obj.playerarray[0]].score+=obj.points;
+				console.log(obj.players[obj.currentplayer].score)
+				obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+		obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
+		obj.scorecard[2].innerHTML=obj.players[obj.playerarray[2]].score;
+				guessedcorrect=true;
 			}
 		}
+			if(guessedcorrect===false){
+				
+				
+				wrongGuess();
+			}
+	}
+
+	function wrongGuess(){
+		obj.playerarray.push(obj.playerarray.shift())
+		obj.header[0].innerHTML="Player "+(obj.playerarray[0]+1);
+		obj.header[1].innerHTML="Player "+(obj.playerarray[1]+1);
+		obj.header[2].innerHTML="Player "+(obj.playerarray[2]+1);
+		obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+		obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
+		obj.scorecard[2].innerHTML=obj.players[obj.playerarray[2]].score;
 	}
 	function clearAll(){
 		var cleartiles=document.getElementsByClassName("emptytile")
