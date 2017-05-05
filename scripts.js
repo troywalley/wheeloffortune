@@ -9,6 +9,7 @@
 function mainObj(){
 	this.puzzlearray=[];
 	this.cluearray=[];
+	this.puzzleindex=0;
 	this.createPuzzle=createPuzzle;
 	this.tile=[];
 	this.wordspaces=[];
@@ -32,9 +33,24 @@ function mainObj(){
 	this.points=100;
 	this.scorecard=[];
 	this.header=[];
-	this.playerarray=[]
+	this.playerarray=[];
+	this.phrase=[];
+	this.Start=Start;
+	var clue=document.getElementsByClassName("clue")[0];
 	var players=document.getElementsByClassName("players")[0];
+	function Start(){
+		var people=prompt("Enter the number of players");
+		if(people===""||people===null){
+			return;
+		}else{
+
+			obj.PlayerLoop(parseInt(people))
+		}
+		clue.innerHTML=obj.cluearray[0]
+		obj.createPuzzle(obj.puzzlearray[0]);
+	}
 	function PlayerLoop(number){
+		
 		for(var i=0;i<number;i++){
 			var player=new obj.CreatePlayers();
 			obj.players.push(player);
@@ -130,7 +146,9 @@ function mainObj(){
 		this.score=0;
 	}
 	function createPuzzle(phrase){
+		
 		phrase=phrase.split(" ")
+		
 		// console.log(phrase.length);
 		for(var i=0;i<phrase.length;i++){
 			var x=phrase;
@@ -155,6 +173,7 @@ function mainObj(){
 			// console.log(numberletters)
 			for(var i=0;i<numberletters;i++){
 				if(obj.letters[i]!=" "){
+					obj.phrase.push(i);
 					obj.emptytile[i+12].classList.remove("tile")
 					obj.emptytile[i+12].classList.add("emptytile")
 				}
@@ -164,6 +183,7 @@ function mainObj(){
 			for(var i=0;i<obj.line1;i++){
 				obj.tile[i].innerHTML=obj.letters[i];
 				if(obj.letters[i]!=" "){
+					obj.phrase.push(i);
 					// console.log(obj.emptytile[i])
 					obj.emptytile[i].classList.remove("tile")
 					obj.emptytile[i].classList.add("emptytile")
@@ -175,6 +195,7 @@ function mainObj(){
 				for(var i=0;i<obj.line2;i++){
 					obj.tile[i+12].innerHTML=obj.letters[i+obj.line1]
 					if(obj.letters[i+obj.line1]!=" "){
+						obj.phrase.push(i);
 						// console.log(obj.letters[i+12])
 						obj.emptytile[i+12].classList.remove("tile")
 						obj.emptytile[i+12].classList.add("emptytile")
@@ -186,6 +207,7 @@ function mainObj(){
 				for(var i=0;i<obj.line3;i++){
 					obj.tile[i+26].innerHTML=obj.letters[i+obj.line1+obj.line2]
 					if(obj.letters[i+obj.line1+obj.line2]!=" "){
+						obj.phrase.push(i);
 						obj.emptytile[i+26].classList.remove("tile")
 						obj.emptytile[i+26].classList.add("emptytile")
 					}
@@ -196,6 +218,7 @@ function mainObj(){
 				for(var i=0;i<obj.line4;i++){
 					obj.tile[i+40].innerHTML=obj.letters[i+obj.line1+obj.line2+obj.line3]
 					if(obj.letters[i+40]!=" "){
+						obj.phrase.push(i);
 						obj.emptytile[i+40].classList.remove("tile")
 						obj.emptytile[i+40].classList.add("emptytile")
 					}
@@ -255,7 +278,7 @@ function mainObj(){
 	function CheckForLetter(letter){
 		var guessedcorrect=false;
 		for(var i=0;i<obj.tile.length;i++){
-			if(obj.tile[i].innerHTML===letter){
+			if(obj.tile[i].innerHTML===letter && letter!=" "){
 				obj.tile[i].classList.add("correct-letter");
 				obj.tile[i].classList.remove("hiddentile")
 				obj.players[obj.playerarray[0]].score+=obj.points;
@@ -277,6 +300,7 @@ function mainObj(){
 			if(guessedcorrect===false){	
 				wrongGuess();
 			}
+			isSolved();
 	}
 
 	function wrongGuess(){
@@ -299,6 +323,17 @@ function mainObj(){
 			obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
 		}
 	}
+	function isSolved(){
+		var correctletters=document.getElementsByClassName("correct-letter")
+		if(correctletters.length===obj.phrase.length){
+			alert("puzzle solved")
+			obj.clearAll();
+			obj.puzzleindex+=1;
+			clue.innerHTML=obj.cluearray[obj.puzzleindex]
+		obj.createPuzzle(obj.puzzlearray[obj.puzzleindex]);
+
+		}
+	}
 	function clearAll(){
 		var cleartiles=document.getElementsByClassName("emptytile")
 		while(cleartiles.length>0) {
@@ -309,6 +344,7 @@ function mainObj(){
 			obj.tile[i].innerHTML=""
 			obj.emptytile[i].removeChild(obj.emptytile[i].lastChild)
 		}
+		obj.phrase=[];
 		obj.line1=0;
 		obj.line2=0;
 		obj.line3=0;
@@ -340,3 +376,7 @@ for(var i=0;i<tile.length;i++){
 	newobj.tile.push(newtile)
 	newobj.emptytile.push(tile[i])
 }
+var array=["PHANTOM OF THE OPERA", "AMPHIBIAN", "BARACK OBAMA", "MUHAMMAD ALI", "BEN FRANKLIN", "THE SHAWSHANK REDEMPTION", "TO KILL A MOCKINGBIRD", "DALLAS COWBOYS", "OZZY OSBOURNE"]
+var clue=["Entertainment", "Thing", "People", "People", "People", "Entertainment","Arts and Culture", "Thing", "People"]
+newobj.puzzlearray=array;
+newobj.cluearray=clue;
