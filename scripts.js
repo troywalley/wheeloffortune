@@ -260,27 +260,44 @@ function mainObj(){
 				obj.tile[i].classList.remove("hiddentile")
 				obj.players[obj.playerarray[0]].score+=obj.points;
 				console.log(obj.players[obj.currentplayer].score)
-				obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
-		obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
-		obj.scorecard[2].innerHTML=obj.players[obj.playerarray[2]].score;
 				guessedcorrect=true;
-			}
+				if(obj.playerarray.length>=3){
+					obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+					obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
+					obj.scorecard[2].innerHTML=obj.players[obj.playerarray[2]].score;
+				
+				}else if(obj.playerarray.length===2){
+					obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+					obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
+				}else{
+					obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;	
+				}
+				}
 		}
-			if(guessedcorrect===false){
-				
-				
+			if(guessedcorrect===false){	
 				wrongGuess();
 			}
 	}
 
 	function wrongGuess(){
 		obj.playerarray.push(obj.playerarray.shift())
+		if(obj.playerarray.length>=3){
+		
 		obj.header[0].innerHTML="Player "+(obj.playerarray[0]+1);
 		obj.header[1].innerHTML="Player "+(obj.playerarray[1]+1);
 		obj.header[2].innerHTML="Player "+(obj.playerarray[2]+1);
 		obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
 		obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
 		obj.scorecard[2].innerHTML=obj.players[obj.playerarray[2]].score;
+		}else if(obj.playerarray.length===2){
+			obj.header[0].innerHTML="Player "+(obj.playerarray[0]+1);
+		obj.header[1].innerHTML="Player "+(obj.playerarray[1]+1);
+		obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+		obj.scorecard[1].innerHTML=obj.players[obj.playerarray[1]].score;
+		}else{
+			obj.header[0].innerHTML="Player "+(obj.playerarray[0]+1);
+			obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+		}
 	}
 	function clearAll(){
 		var cleartiles=document.getElementsByClassName("emptytile")
