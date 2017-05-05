@@ -228,11 +228,26 @@ function mainObj(){
 	}
 	document.addEventListener("keypress", function(event){
 		CheckForLetter(event.key);
-
 	})
+
+	document.addEventListener("keydown", Solve)
+	function Solve(event){
+		if(event.key==="Escape"){
+			var puzzleanswer=prompt("Would you like to solve the puzzle?")
+			if(puzzleanswer!=""&&puzzleanswer!=null){
+				solvePuzzle(puzzleanswer.toUpperCase())
+			}else{
+				return;
+			}
+		}
+	}
 	function solvePuzzle(string){
 		if(string+" "===obj.letters.join("")){
 			alert("You have solved the puzzle!!!")
+			obj.clearAll();
+			obj.puzzleindex+=1;
+			clue.innerHTML=obj.cluearray[obj.puzzleindex]
+		obj.createPuzzle(obj.puzzlearray[obj.puzzleindex]);
 		}else{
 			alert("You have guessed incorrectly.")
 		}
@@ -276,8 +291,10 @@ function mainObj(){
 		}
 	}
 	function CheckForLetter(letter){
+		letter=letter.toUpperCase();
 		var guessedcorrect=false;
 		for(var i=0;i<obj.tile.length;i++){
+
 			if(obj.tile[i].innerHTML===letter && letter!=" "){
 				obj.tile[i].classList.add("correct-letter");
 				obj.tile[i].classList.remove("hiddentile")
