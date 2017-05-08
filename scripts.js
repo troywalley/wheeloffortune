@@ -5,7 +5,20 @@
 //which will multiply by the number of correct guessed letters in the phrase.
 //create an array of words/phrases to iterate through for each round.
 //create a teacher's ui
-
+var tile=document.getElementsByClassName("tile")
+var newobj= new mainObj();
+for(var i=0;i<tile.length;i++){
+	var newtile=document.createElement("div")
+	newtile.classList.add("hiddentile")
+	tile[i].appendChild(newtile)
+	newobj.tile.push(newtile)
+	newobj.emptytile.push(tile[i])
+}
+var array=["PHANTOM OF THE OPERA", "AMPHIBIAN", "BARACK OBAMA", "MUHAMMAD ALI", "BEN FRANKLIN", "THE SHAWSHANK REDEMPTION", "TO KILL A MOCKINGBIRD", "DALLAS COWBOYS", "OZZY OSBOURNE"]
+var clue=["Entertainment", "Thing", "People", "People", "People", "Entertainment","Arts and Culture", "Thing", "People"]
+newobj.puzzlearray=array;
+newobj.cluearray=clue;
+newobj.Start();
 function mainObj(){
 	this.puzzlearray=[];
 	this.cluearray=[];
@@ -35,7 +48,10 @@ function mainObj(){
 	this.header=[];
 	this.playerarray=[];
 	this.phrase=[];
+	this.wheelarray=["wheel1", "wheel2", "wheel3", "wheel4", "wheel5", "wheel6", "wheel7", "wheel8", "wheel9", "wheel10", "wheel11", "wheel12", "wheel13", "wheel14", "wheel15", "wheel16", "wheel17", "wheel18", "wheel19", "wheel20", "wheel21", "wheel22", "wheel23", "wheel24",]
 	this.Start=Start;
+	this.pointsarray=[800,200,250,300,200,"LAT",600,250,400,300,200,"BKRT",250,350,500,250,200,300,400,250,350,300,200,"BKRT"];
+	var modal=document.getElementsByClassName("wheelmodal")[0];
 	var clue=document.getElementsByClassName("clue")[0];
 	var players=document.getElementsByClassName("players")[0];
 	function Start(){
@@ -48,6 +64,10 @@ function mainObj(){
 		}
 		clue.innerHTML=obj.cluearray[0]
 		obj.createPuzzle(obj.puzzlearray[0]);
+		
+		
+		var wheel=document.getElementsByClassName("wheel")[0];
+		setTimeout(function(){modal.style.display="block";spinWheel()},1000);
 	}
 	function PlayerLoop(number){
 		
@@ -318,6 +338,7 @@ function mainObj(){
 				wrongGuess();
 			}
 			isSolved();
+			
 	}
 
 	function wrongGuess(){
@@ -349,7 +370,31 @@ function mainObj(){
 			clue.innerHTML=obj.cluearray[obj.puzzleindex]
 		obj.createPuzzle(obj.puzzlearray[obj.puzzleindex]);
 
+		}else{
+			setTimeout(function(){modal.style.display="block";spinWheel()},2000);
 		}
+	}
+	function spinWheel(){
+		var wheel=document.getElementsByClassName("wheel")[0]
+		var randomValue = Math.floor(obj.wheelarray.length * Math.random());
+		console.log(randomValue)
+		
+		wheel.classList.add(obj.wheelarray[randomValue])
+		
+		setTimeout(function(){wheel.classList.remove(wheel.classList[1]);modal.style.display="none"},8000)
+		if(obj.pointsarray[randomValue]==="LAT"){
+			wrongGuess();
+			setTimeout(function(){modal.style.display="block";spinWheel()},8000);
+		}else if(obj.pointsarray[randomValue]==="BKRT"){
+			obj.players[obj.playerarray[0]].score=parseInt(0);
+			console.log("Bankrupt")
+			wrongGuess();
+			setTimeout(function(){modal.style.display="block";spinWheel()},8000);
+		}else{
+		obj.points=obj.pointsarray[randomValue]
+		
+		}
+
 	}
 	function clearAll(){
 		var cleartiles=document.getElementsByClassName("emptytile")
@@ -384,16 +429,3 @@ function mainObj(){
 }
 	}
 }
-var tile=document.getElementsByClassName("tile")
-var newobj= new mainObj();
-for(var i=0;i<tile.length;i++){
-	var newtile=document.createElement("div")
-	newtile.classList.add("hiddentile")
-	tile[i].appendChild(newtile)
-	newobj.tile.push(newtile)
-	newobj.emptytile.push(tile[i])
-}
-var array=["PHANTOM OF THE OPERA", "AMPHIBIAN", "BARACK OBAMA", "MUHAMMAD ALI", "BEN FRANKLIN", "THE SHAWSHANK REDEMPTION", "TO KILL A MOCKINGBIRD", "DALLAS COWBOYS", "OZZY OSBOURNE"]
-var clue=["Entertainment", "Thing", "People", "People", "People", "Entertainment","Arts and Culture", "Thing", "People"]
-newobj.puzzlearray=array;
-newobj.cluearray=clue;
