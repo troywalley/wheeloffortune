@@ -406,12 +406,13 @@ function mainObj(){
 	function isSolved(){
 		var correctletters=document.getElementsByClassName("correct-letter")
 		if(correctletters.length===obj.phrase.length){
-			alert("puzzle solved")
+			setTimeout(function(){
+				alert("Player "+(obj.playerarray[0]+1)+" has solved the puzzle!");
 			obj.clearAll();
 			obj.puzzleindex+=1;
 			clue.innerHTML=obj.cluearray[obj.puzzleindex]
 		obj.createPuzzle(obj.puzzlearray[obj.puzzleindex]);
-
+		},2000)
 		}else{
 			setTimeout(function(){modal.style.display="block";spinWheel()},2000);
 		}
