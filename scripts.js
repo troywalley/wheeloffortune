@@ -50,6 +50,8 @@ function mainObj(){
 	this.phrase=[];
 	this.wheelarray=["wheel1", "wheel2", "wheel3", "wheel4", "wheel5", "wheel6", "wheel7", "wheel8", "wheel9", "wheel10", "wheel11", "wheel12", "wheel13", "wheel14", "wheel15", "wheel16", "wheel17", "wheel18", "wheel19", "wheel20", "wheel21", "wheel22", "wheel23", "wheel24",]
 	this.Start=Start;
+	this.withoutspaces=0;
+	this.guessedcorrect=0;
 	this.pointsarray=[800,200,250,300,200,"LAT",600,250,400,300,200,"BKRT",250,350,500,250,200,300,400,250,350,300,200,"BKRT"];
 	var modal=document.getElementsByClassName("wheelmodal")[0];
 	var clue=document.getElementsByClassName("clue")[0];
@@ -168,7 +170,12 @@ function mainObj(){
 		this.score=0;
 	}
 	function createPuzzle(phrase){
-		
+		var withoutspaces=phrase.split("")
+		for(var i=0;i<withoutspaces.length;i++){
+			if(withoutspaces[i]!=" "){
+				obj.withoutspaces+=1;
+			}
+		}
 		phrase=phrase.split(" ")
 		
 		// console.log(phrase.length);
@@ -266,10 +273,13 @@ function mainObj(){
 	function solvePuzzle(string){
 		if(string+" "===obj.letters.join("")){
 			alert("You have solved the puzzle!!!")
+			obj.players[obj.playerarray[0]].score+=(obj.points*(obj.withoutspaces-obj.guessedcorrect));
+			obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
 			obj.clearAll();
 			obj.puzzleindex+=1;
 			clue.innerHTML=obj.cluearray[obj.puzzleindex]
 		obj.createPuzzle(obj.puzzlearray[obj.puzzleindex]);
+		setTimeout(function(){modal.style.display="block";spinWheel()},2000);
 		}else{
 			alert("You have guessed incorrectly.")
 		}
@@ -318,6 +328,7 @@ function mainObj(){
 		for(var i=0;i<obj.tile.length;i++){
 
 			if(obj.tile[i].innerHTML===letter && letter!=" "){
+				obj.guessedcorrect+=1;
 				obj.tile[i].classList.add("correct-letter");
 				obj.tile[i].classList.remove("hiddentile")
 				obj.players[obj.playerarray[0]].score+=obj.points;
