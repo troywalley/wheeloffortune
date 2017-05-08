@@ -55,6 +55,7 @@ function mainObj(){
 	var clue=document.getElementsByClassName("clue")[0];
 	var players=document.getElementsByClassName("players")[0];
 	var wheelpoints=document.getElementsByClassName("temppoints")[0];
+	var modalplayer=document.getElementsByClassName("modalplayer")[0];
 	function Start(){
 		var people=prompt("Enter the number of players");
 		if(people===""||people===null){
@@ -376,6 +377,7 @@ function mainObj(){
 		}
 	}
 	function spinWheel(){
+		modalplayer.innerHTML="Player "+(obj.playerarray[0]+1);
 		var wheel=document.getElementsByClassName("wheel")[0]
 		var randomValue = Math.floor(obj.wheelarray.length * Math.random());
 		console.log(randomValue)
