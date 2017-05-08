@@ -45,6 +45,7 @@ function mainObj(){
 	this.currentplayer=0;
 	this.points=100;
 	this.scorecard=[];
+	this.usedletters=[];
 	this.header=[];
 	this.playerarray=[];
 	this.phrase=[];
@@ -336,6 +337,16 @@ function mainObj(){
 		if(correctkey===false){
 			return;
 		}
+		var used=false;
+		for(var i=0;i<obj.usedletters.length;i++){
+			if(letter===obj.usedletters[i]){
+				used=true;
+			}
+		}
+		if(used===true){
+			return;
+		}
+		obj.usedletters.push(letter);
 		var guessedcorrect=false;
 		for(var i=0;i<obj.tile.length;i++){
 
