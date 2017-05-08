@@ -66,6 +66,23 @@ body {
   height: 100%;
   border: 5px solid black; }
 
+.usedletterscontainer {
+  width: 90px;
+  background-color: white;
+  float: left; }
+
+.usedlettersheader {
+  text-align: center;
+  text-decoration: underline; }
+
+.usedletters {
+  text-align: center;
+  font-size: 20px;
+  width: 20px;
+  height: auto;
+  margin: 0 auto;
+  word-wrap: break-word; }
+
 .players {
   display: flex;
   justify-content: space-around; }

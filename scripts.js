@@ -54,6 +54,7 @@ function mainObj(){
 	this.withoutspaces=0;
 	this.guessedcorrect=0;
 	this.pointsarray=[800,200,250,300,200,"LAT",600,250,400,300,200,"BKRT",250,350,500,250,200,300,400,250,350,300,200,"BKRT"];
+	var usedletters=document.getElementsByClassName("usedletters")[0];
 	var modal=document.getElementsByClassName("wheelmodal")[0];
 	var clue=document.getElementsByClassName("clue")[0];
 	var players=document.getElementsByClassName("players")[0];
@@ -325,6 +326,7 @@ function mainObj(){
 		}
 	}
 	function CheckForLetter(letter){
+
 		letter=letter.toUpperCase();
 		var alphabet=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 		var correctkey=false;
@@ -347,6 +349,10 @@ function mainObj(){
 			return;
 		}
 		obj.usedletters.push(letter);
+		usedletters.innerHTML=""
+		for(var i=0;i<obj.usedletters.length;i++){
+			usedletters.innerHTML+=obj.usedletters[i]
+		}
 		var guessedcorrect=false;
 		for(var i=0;i<obj.tile.length;i++){
 
@@ -443,6 +449,10 @@ function mainObj(){
 			obj.tile[i].innerHTML=""
 			obj.emptytile[i].removeChild(obj.emptytile[i].lastChild)
 		}
+		obj.guessedcorrect=0;
+		obj.withoutspaces=0;
+		obj.usedletters=[];
+		usedletters.innerHTML="";
 		obj.phrase=[];
 		obj.line1=0;
 		obj.line2=0;
