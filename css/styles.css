@@ -78,18 +78,21 @@ body {
 
 .playerheader1 {
   background-color: lightblue;
+  border-bottom: 2px solid black;
   height: 40px;
   text-align: center;
   font-size: 26px; }
 
 .playerheader2 {
   background-color: yellow;
+  border-bottom: 2px solid black;
   height: 40px;
   text-align: center;
   font-size: 26px; }
 
 .playerheader3 {
   background-color: lightgreen;
+  border-bottom: 2px solid black;
   height: 40px;
   text-align: center;
   font-size: 26px; }
