@@ -100,6 +100,22 @@ body {
   text-align: center;
   font-size: 26px; }
 
+.pointsheader {
+  text-align: center;
+  border-bottom: 2px solid black;
+  background-color: lightblue; }
+
+.temppoints {
+  text-align: center; }
+
+.score {
+  border: 2px solid black;
+  width: 200px;
+  height: 50px;
+  float: right;
+  margin-right: 100px;
+  background-color: white; }
+
 .wheelmodal {
   position: fixed;
   height: 100%;
