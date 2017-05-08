@@ -271,6 +271,7 @@ function mainObj(){
 		}
 	}
 	function solvePuzzle(string){
+		string=string.toUpperCase();
 		if(string+" "===obj.letters.join("")){
 			alert("You have solved the puzzle!!!")
 			obj.players[obj.playerarray[0]].score+=(obj.points*(obj.withoutspaces-obj.guessedcorrect));
@@ -324,6 +325,17 @@ function mainObj(){
 	}
 	function CheckForLetter(letter){
 		letter=letter.toUpperCase();
+		var alphabet=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+		var correctkey=false;
+		for(var i=0;i<alphabet.length;i++){
+			if(letter===alphabet[i]){
+				correctkey=true;
+				
+			}
+		}
+		if(correctkey===false){
+			return;
+		}
 		var guessedcorrect=false;
 		for(var i=0;i<obj.tile.length;i++){
 
