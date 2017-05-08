@@ -55,6 +55,10 @@ function mainObj(){
 	this.guessedcorrect=0;
 	this.pointsarray=[800,200,250,300,200,"LAT",600,250,400,300,200,"BKRT",250,350,500,250,200,300,400,250,350,300,200,"BKRT"];
 	var usedletters=document.getElementsByClassName("usedletters")[0];
+	var spintick=document.getElementById("spintick");
+	var bankrupt=document.getElementById("bankrupt");
+	var success=document.getElementById("success");
+	var wrong=document.getElementById("wrong");
 	var modal=document.getElementsByClassName("wheelmodal")[0];
 	var clue=document.getElementsByClassName("clue")[0];
 	var players=document.getElementsByClassName("players")[0];
@@ -361,6 +365,7 @@ function mainObj(){
 		for(var i=0;i<obj.tile.length;i++){
 
 			if(obj.tile[i].innerHTML===letter && letter!=" "){
+				success.play();
 				obj.guessedcorrect+=1;
 				obj.tile[i].classList.add("correct-letter");
 				obj.tile[i].classList.remove("hiddentile")
@@ -382,12 +387,15 @@ function mainObj(){
 		}
 			if(guessedcorrect===false){	
 				wrongGuess();
+				wrong.play();
 			}
+			
 			isSolved();
 			
 	}
 
 	function wrongGuess(){
+		
 		obj.playerarray.push(obj.playerarray.shift())
 		if(obj.playerarray.length>=3){
 		
@@ -425,15 +433,17 @@ function mainObj(){
 		modalplayer.innerHTML="Player "+(obj.playerarray[0]+1);
 		var wheel=document.getElementsByClassName("wheel")[0]
 		var randomValue = Math.floor(obj.wheelarray.length * Math.random());
-		console.log(randomValue)
+		
 		
 		wheel.classList.add(obj.wheelarray[randomValue])
-		
+		spintick.play();
 		setTimeout(function(){wheel.classList.remove(wheel.classList[1]);modal.style.display="none"},8000)
 		if(obj.pointsarray[randomValue]==="LAT"){
 			wrongGuess();
+			setTimeout(function(){bankrupt.play()},4000);
 			setTimeout(function(){modal.style.display="block";spinWheel()},8000);
 		}else if(obj.pointsarray[randomValue]==="BKRT"){
+			setTimeout(function(){bankrupt.play()},4000);
 			obj.players[obj.playerarray[0]].score=parseInt(0);
 			console.log("Bankrupt")
 			wrongGuess();
