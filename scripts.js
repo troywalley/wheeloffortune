@@ -348,6 +348,10 @@ function mainObj(){
 		if(used===true){
 			return;
 		}
+		if(letter==="A"||letter==="E"||letter==="I"||letter==="O"||letter==="U"){
+			obj.players[obj.playerarray[0]].score-=100;
+			obj.scorecard[0].innerHTML=obj.players[obj.playerarray[0]].score;
+		}
 		obj.usedletters.push(letter);
 		usedletters.innerHTML=""
 		for(var i=0;i<obj.usedletters.length;i++){
